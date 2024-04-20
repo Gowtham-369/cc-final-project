@@ -15,6 +15,7 @@
 body {
   background: #f8faf5;
   font-family: "Varela Round", sans-serif;
+  background-image: url('{{ url_for('static', filename='images/login-page.jpg') }}');
 }
 
 .card {
@@ -79,9 +80,7 @@ body {
 .card .btn:hover {
   background: #972c3e;
 }
-body{
-  background-image: url("login_page.jpg");
-}
+
  </style>
 </head>
   <body>
@@ -103,7 +102,7 @@ body{
     </ul>
   </div><!--/features-->
 
-  <a href="{{url_for('searchhhm')}}" class="btn">Check it out</a>
+  <a href="{{url_for('search_hhm')}}" class="btn">Check it out</a>
 
 </div><!--/card-->
 
@@ -124,7 +123,7 @@ body{
     </ul>
   </div><!--/features-->
 
-  <a href="{{url_for('loadDashboard')}}" class="btn">Check it out</a>
+  <a href="{{url_for('load_dashboard')}}" class="btn">Check it out</a>
 
 </div><!--/card-->
 
@@ -145,7 +144,7 @@ body{
     </ul>
   </div><!--/features-->
 
-  <a href="{{url_for('uploaddatasets')}}" class="btn">Check it out</a>
+  <a href="{{url_for('upload_datasets')}}" class="btn">Check it out</a>
 
 </div><!--/card-->
 

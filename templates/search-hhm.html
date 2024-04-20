@@ -9,7 +9,7 @@ body {
     margin: 0;
     height: 100vh;
     width: 100%;
-    background: #07051a;
+    background: #2c8cdb;
 }
 h1 {
     color: white;
@@ -114,7 +114,6 @@ form:valid a {
     font-size: 2.2em;
     transition: all 1s;
 }
-
 </style>
 
 </head>
@@ -122,7 +121,7 @@ form:valid a {
  <h1>SEARCH ON DATA PULLs BASED ON <i>Hshd_num</i></h1>
  <a id="dashboard" class="fa fa-home" aria-hidden="true" href="{{url_for('dashboard')}}"></a>
  <div class="Errormessage"><FONT COLOR="#FF0000">{{ message }}</FONT></div><br/>
-<form action="{{url_for('searchhhmnew')}}" method="POST">
+<form action="{{url_for('search_hhm_new')}}" method="POST">
   <input type="search" name="hshd_num" placeholder="search Hshd_num" required>
   <button class="fa fa-search"></button>
   <a class="clear" href="javascript:void(0)" id="clear-btn">Clear</a>

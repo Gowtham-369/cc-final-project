@@ -9,7 +9,7 @@ body {
     margin: 0;
     height: 100vh;
     width: 100%;
-    background: #07051a;
+    background: #2c8cdb;
 }
 h1 {
     color: white;
@@ -184,6 +184,11 @@ th:nth-child(1){
     font-size: 2.2em;
     transition: all 1s;
 }
+#CustomerTable{
+  margin-left: auto;
+  margin-right: auto; 
+  width: 80%; /* Adjust the width as needed */
+}
 </style>
 
 </head>
@@ -191,7 +196,7 @@ th:nth-child(1){
  <h1>SEARCH ON DATA PULLs BASED ON <i>Hshd_num</i></h1>
  <a id="dashboard" class="fa fa-home" aria-hidden="true" href="{{url_for('dashboard')}}"></a>
  <div class="Errormessage"><FONT COLOR="#FF0000">{{ message }}</FONT></div><br/>
-<form action="{{url_for('searchhhmnew')}}" method="POST">
+<form action="{{url_for('search_hhm_new')}}" method="POST">
   <input type="search" name="hshd_num" placeholder="search Hshd_num" required>
   <button class="fa fa-search"></button>
   <a class="clear" href="javascript:void(0)" id="clear-btn">Clear</a>
@@ -239,7 +244,7 @@ th:nth-child(1){
 	</tr>
 	{% endfor %}
 </table>
-
+</div>
 
 <script type="text/javascript">
 const clearInput = () => {
