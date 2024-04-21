@@ -31,10 +31,10 @@ class Queries:
     
 class DataBaseConfigValues:
     try:
-        HOST_NAME = 'cc-final-project-server.mysql.database.azure.com'
-        USER_NAME = 'sudouser'
-        PASSWORD = 'Family@4'
-        DATABASE_NAME = 'mydatabase'
+        HOST_NAME = 'your-sql-server.mysql.database.azure.com'
+        USER_NAME = 'your-username'
+        PASSWORD = 'your-password'
+        DATABASE_NAME = 'your-database'
     except Exception as e:
         print("Failed to get the Database configuration details")
         raise e
