@@ -16,11 +16,11 @@ float:left;
   float: left;
 }
 @media (max-width: 768px) {
-  .card {
+  .eachchart {
     margin: 10px 20px;
     width: calc(100% - 40px);
   }
-  .card:first-child {
+  .eachchart:first-child {
     margin-top: 20px;
   }
 }
@@ -28,18 +28,17 @@ float:left;
 font-size:20px
 }
 #dashboard{
-	color:black;
 	box-sizing: border-box;
     padding: 10px;
-    width: 72.5px;
-    height: 72.5px;
+    width: 70px;
+    height: 70px;
     position: absolute;
     top: 0;
     right: 0;
     border-radius: 50%;
-    color: black;
+    color: #E00122;
     text-align: center;
-    font-size: 2.2em;
+    font-size: 2em;
     transition: all 1s;
 }
   </style>
@@ -85,14 +84,14 @@ const datatwo = {
 		],
   datasets: [{
     type: 'bar',
-    label: 'FOOD',
+    label: 'Food',
     data: [
             {% for item in valuestwo %}
                "{{ item }}",
               {% endfor %}
 	    ],
     borderColor: 'rgb(255, 99, 132)',
-    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+    backgroundColor: 'rgba(255, 99, 132, 0.6)'
   }, {
     type: 'bar',
     label: 'Non-Food',
@@ -102,17 +101,18 @@ const datatwo = {
               {% endfor %}
 	    ],
     fill: false,
-    borderColor: 'rgb(54, 162, 235)'
+    borderColor: 'rgb(54, 162, 235)',
+    backgroundColor: 'rgba(54, 162, 235, 0.6)'
   }]
 };
 const ctx = document.getElementById('myChartTwo');
   let chart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: datatwo
 });	
 
 
-const data = {
+const dataone = {
   labels : [
           {% for item in labels %}
            "{{ item }}",
@@ -120,20 +120,20 @@ const data = {
 		],
   datasets: [{
     type: 'bar',
-    label: 'SPENT',
+    label: 'Spend',
     data: [
             {% for item in values %}
                "{{ item }}",
               {% endfor %}
 	    ],
     borderColor: 'rgb(255, 99, 132)',
-    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+    backgroundColor: 'rgba(255, 99, 132, 0.6)'
   }]
 };
 const ctxnew=document.getElementById('myChart');
 let chartnew = new Chart(ctxnew, {
-    type: 'line',
-    data: data
+    type: 'bar',
+    data: dataone
 });
 
 
@@ -145,14 +145,14 @@ const datathree = {
 		],
   datasets: [{
     type: 'bar',
-    label: 'SPENT(COMMODITY-FOOD)',
+    label: 'Spend(Commodity is Food)',
     data: [
             {% for item in valuesthree %}
                "{{ item }}",
               {% endfor %}
 	    ],
     borderColor: 'rgb(255, 99, 132)',
-    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+    backgroundColor: 'rgba(255, 99, 132, 0.6)'
   }]
 };
 const ctxnewthree=document.getElementById('myChartThree');
@@ -170,14 +170,14 @@ const datafour = {
 		],
   datasets: [{
     type: 'line',
-    label: 'SPENT',
+    label: 'Spend',
     data: [
             {% for item in valuesfour %}
                "{{ item }}",
               {% endfor %}
 	    ],
     borderColor: 'rgb(255, 99, 132)',
-    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+    backgroundColor: 'rgba(255, 99, 132, 0.6)'
   }]
 };
 const ctxnewfour=document.getElementById('myChartFour');
@@ -188,4 +188,3 @@ let chartnewfour = new Chart(ctxnewfour, {
 
 </script>
 </head>
-

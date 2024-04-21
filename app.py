@@ -140,8 +140,8 @@ def search_hhm_new():
     return response;
 
 
-@app.route('/storeuploadedhouseholdfile', methods =['GET','POST'])
-def storeuploadedhouseholdfile():
+@app.route('/store-uploaded-household-file', methods =['GET','POST'])
+def store_uploaded_household_file():
     message = 'Please upload file again!'
     if request.method == 'POST':  # check if the method is post
         f = request.files['file']  
@@ -155,8 +155,8 @@ def storeuploadedhouseholdfile():
     return render_template('upload-data.html',message=message)
 
 
-@app.route('/storeuploadedProductfile', methods =['GET','POST'])
-def storeuploadedProductfile():
+@app.route('/store-uploaded-product-file', methods =['GET','POST'])
+def store_uploaded_product_file():
     message = 'Please upload file again!'
     if request.method == 'POST':  # check if the method is post
         f = request.files['file']  
@@ -170,8 +170,8 @@ def storeuploadedProductfile():
     return render_template('upload-data.html',messageProducts=message)
 
 
-@app.route('/storeuploadedTransactionfile', methods =['GET','POST'])
-def storeuploadedTransactionfile():
+@app.route('/store-uploaded-transaction-file', methods =['GET','POST'])
+def store_uploaded_transaction_file():
     message = 'Please upload file again!'
     if request.method == 'POST':  # check if the method is post
         f = request.files['file']  # get the file from the files object
@@ -228,7 +228,7 @@ def read_csv_and_load_data(csvfilepath,dataFrom):
     cursor = conn.cursor()
     df = pd.read_csv(csvfilepath)
     df.columns = df.columns.str.replace(' ', '')
-    df = df.apply(lambda x: x.strip() if isinstance(x, str) else x)
+    df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
     dftotuple = list(df.to_records(index=False))
     if(dataFrom == 'households'):
         for eachtuple in dftotuple:
@@ -264,72 +264,45 @@ def read_csv_and_load_data(csvfilepath,dataFrom):
     conn.close()
 
 
-def read_csv_file_and_store_to_azure(csvfilename,dataFrom):
-    conn = connect_to_database()
-    cursor = conn.cursor()
-    
-    # store large files in azure storage manager 
-    # keep them out of app context
-    # Get the path to the CSV file
-    csv_path = os.path.join(app.root_path, 'static', 'data', '400_households.csv')
-
-    # Read the CSV file into a pandas DataFrame
-    df = pd.read_csv(csv_path)
-    df.columns = df.columns.str.replace(' ', '')
-    df = df.apply(lambda x: x.strip() if isinstance(x, str) else x)
-    dftotuple = list(df.to_records(index=False))
-    for eachtuple in dftotuple:
-        try:
-            cursor.execute(
-                Queries.HOUSEHOLD_TABLE_INSERT_QUERY,
-                (int(eachtuple.HSHD_NUM), str(eachtuple.L), str(eachtuple.AGE_RANGE), str(eachtuple.MARITAL),
-                 str(eachtuple.INCOME_RANGE), str(eachtuple.HOMEOWNER), str(eachtuple.HSHD_COMPOSITION),
-                 str(eachtuple.HH_SIZE), str(eachtuple.CHILDREN)));
-        except Exception as e:  # work on python 3.x
-            print('Failed to upload to ftp: ' + str(e))
-    
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-
 @app.route('/load-dashboard', methods =['GET','POST'])
 def load_dashboard():
     #First Graph(bar Graph)
-    data=execute_select_query(Queries.FIRST_PLOT_DASHBOARD_QUERY);
-    data['Spent']=data['Spent'].astype(str);
-    data['household_Size'] = data['household_Size'].astype(str);
+    first_data = execute_select_query(Queries.FIRST_PLOT_DASHBOARD_QUERY);
+    first_data['Spent']=first_data['Spent'].astype(str);
+    first_data['household_Size'] = first_data['household_Size'].astype(str);
 
-    #Second Grapgh(Bar Graph)
-    Seconddata = execute_select_query(
+    #Second Graph(Bar Graph)
+    second_data = execute_select_query(
         Queries.SECOND_PLOT_DASHBOARD_FOOD_QUERY);
-    Seconddata['spend'] = Seconddata['spend'].astype(str);
-    Seconddata['householdsize'] = Seconddata['householdsize'].astype(str);
+    second_data['spend'] = second_data['spend'].astype(str);
+    second_data['householdsize'] = second_data['householdsize'].astype(str);
 
-    SeconddataTwo = execute_select_query(
+    second_dataTwo = execute_select_query(
         Queries.SECOND_PLOT_DASHBOARD_NON_FOOD_QUERY);
-    SeconddataTwo['spend'] = SeconddataTwo['spend'].astype(str);
+    second_dataTwo['spend'] = second_dataTwo['spend'].astype(str);
 
-    Threedata = execute_select_query(
+    #Third Graph(Bar Graph)
+    third_data = execute_select_query(
         Queries.THIRD_PLOT_DASHBOARD_QUERY);
-    Threedata['spend'] = Threedata['spend'].astype(str);
-    Threedata['commodity'] = Threedata['commodity'].astype(str);
+    third_data['spend'] = third_data['spend'].astype(str);
+    third_data['commodity'] = third_data['commodity'].astype(str);
 
-    Fourthdata = execute_select_query(
+    #Fourth Graph(Line Graph)
+    fourth_data = execute_select_query(
         Queries.FOURTH_PLOT_DASHBOARD_QUERY);
-    Fourthdata['spend'] = Fourthdata['spend'].astype(str);
-    Fourthdata['year'] = Fourthdata['year'].astype(str);
+    fourth_data['spend'] = fourth_data['spend'].astype(str);
+    fourth_data['year'] = fourth_data['year'].astype(str);
 
-    return render_template("dashboard.html",title='Household Size vs Spent', max=17000,titletwo="Spent vs Householdsize vs Product Department",
-                           labels=data['household_Size'].values.tolist(), values=data['Spent'].values.tolist(),
-                           labelstwo=Seconddata['householdsize'].values.tolist(),valuestwo=Seconddata['spend'].values.tolist(),
-                           valuestwotwo=SeconddataTwo['spend'].values.tolist(),
-                           titlethree="Spent(Commodity:Food) vs Different Food Items",
-                           labelsthree=Threedata['commodity'].values.tolist(),
-                           valuesthree=Threedata['spend'].values.tolist(),
-                           titlefour="Spent vs YEAR",
-                           labelsfour=Fourthdata['year'].values.tolist(),
-                           valuesfour=Fourthdata['spend'].values.tolist());
+    return render_template("dashboard.html",title='Household Size vs Spend', max=17000,titletwo="Household Size vs Spend Grouped By Product Type",
+                           labels=first_data['household_Size'].values.tolist(), values=first_data['Spent'].values.tolist(),
+                           labelstwo=second_data['householdsize'].values.tolist(),valuestwo=second_data['spend'].values.tolist(),
+                           valuestwotwo=second_dataTwo['spend'].values.tolist(),
+                           titlethree="Different Food Items vs Spend",
+                           labelsthree=third_data['commodity'].values.tolist(),
+                           valuesthree=third_data['spend'].values.tolist(),
+                           titlefour="Year vs Spend",
+                           labelsfour=fourth_data['year'].values.tolist(),
+                           valuesfour=fourth_data['spend'].values.tolist());
 
 
 initialize()

@@ -140,7 +140,7 @@ size:20px;
     </ul>
   </div><!--/features-->
   <div><FONT COLOR="brown">{{ message }}</FONT></div><br/>
-<form class ="formclass" action = "{{url_for('storeuploadedhouseholdfile')}}" method = "post" enctype="multipart/form-data">
+<form class ="formclass" action = "{{url_for('store_uploaded_household_file')}}" method = "post" enctype="multipart/form-data">
     <input type="file" name="file" class="fileupload"/>
 	<a href='#' onclick='this.parentNode.submit(); return false;' class="btn">Upload Households Data</a>
 	</form>
@@ -164,7 +164,7 @@ size:20px;
     </ul>
   </div><!--/features-->
   <div><FONT COLOR="brown">{{ messageTransactions }}</FONT></div><br/>
-	<form class ="formclass" enctype = "multipart/form-data" action = "{{url_for('storeuploadedTransactionfile')}}" method = "post">
+	<form class ="formclass" enctype = "multipart/form-data" action = "{{url_for('store_uploaded_transaction_file')}}" method = "post">
     <input type="file" name="file" class="fileupload"/>
 	<a href='#' onclick='this.parentNode.submit(); return false;' class="btn">Upload Transactions Data</a>
 	</form>
@@ -190,7 +190,7 @@ size:20px;
     </ul>
   </div><!--/features-->
   <div><FONT COLOR="brown">{{ messageProducts }}</FONT></div><br/>
-  <form class ="formclass" enctype = "multipart/form-data" action = "{{url_for('storeuploadedProductfile')}}" method = "post">
+  <form class ="formclass" enctype = "multipart/form-data" action = "{{url_for('store_uploaded_product_file')}}" method = "post">
     <input type="file" name="file" class="fileupload"/>
 	<a href='#' onclick='this.parentNode.submit(); return false;' class="btn">Upload Products Data</a>
 	</form>
